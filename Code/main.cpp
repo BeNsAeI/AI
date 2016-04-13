@@ -58,17 +58,24 @@ int main(int argc, char ** argv)
 		struct Tree * myTree = new struct Tree;
 		struct Tree * leftTree = new struct Tree;
 		struct Tree * rightTree = new struct Tree;
+
+		cout << "Creating the branches..." << endl;
+		myTree->branch = new Tree*[2];
+
 		cout << "Populating Data..." << endl;
 		myTree->data[0] = 1;
 		leftTree->data[0] = 2;
 		rightTree->data[0] = 3;
-		myTree->Left = leftTree;
-		myTree->Right = rightTree;
-		cout << "Values are: " << myTree->data[0] << ", " << myTree->Left->data[0] << ", " << myTree->Right->data[0] << endl;
+		myTree->branch[0] = leftTree;
+		myTree->branch[1] = rightTree;
+
+		cout << "Values are: " << myTree->data[0] << ", " << myTree->branch[0]->data[0] << ", " << myTree->branch[1]->data[0] << endl;
+
 		cout << "Returning memory to heap..." << endl;
 		delete leftTree;
 		delete rightTree;
 		delete myTree;
+
 		cout << "Handling pointer ..." << endl;
 		myTree = NULL;
 		leftTree = NULL;
