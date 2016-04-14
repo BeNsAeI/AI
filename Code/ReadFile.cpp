@@ -4,6 +4,9 @@
 #include <cstring>
 #include "ReadFile.h"
 #include <fstream>
+#include <sstream>
+#include <stdio.h>      /* printf, fgets */
+#include <stdlib.h>     /* atoi */
 
 using std::string;
 using std::ifstream;
@@ -37,7 +40,14 @@ int ReadFile::Handle(int * data)
 	{
 	case 2:
 	case 1:
-		(*myfileO) << "Writing this to a file.\n";
+		(*myfileO) << "(";
+		for (int i = 0; i < 6; i++)
+		{
+			(*myfileO) << data[i];
+			if (i < 5)
+				(*myfileO) << ",";
+		}
+		(*myfileO) << ")\n";
 		break;
 	default:
 		cout << "Reading: " << endl;
@@ -47,6 +57,36 @@ int ReadFile::Handle(int * data)
 			while (getline(*myfileI, line))
 			{
 				cout << line << '\n';
+				string pop = line;
+				for (int i = 0; i < line.size(); i++)
+					pop[i] = '/0';
+				int DC = 0;
+				for (int i = 0; i < line.size(); i++)
+				{
+					switch (line[i])
+					{
+					case'(':
+						DC = 0;
+						cout << " ";
+						break;
+					case ')':
+						break;
+					case ' ':
+						break;
+					case ',':
+						DC++;
+						for (int i = 0; i < pop.size(); i++)
+							pop[i] = '/0';
+						cout << " ";
+						break;
+					default:
+						pop = pop + line[i];
+						cout << '^';
+						data[DC] = atoi(pop.c_str());
+						break;
+					}
+				}
+				cout << endl;
 			}
 			myfileI->close();
 		}
@@ -71,8 +111,4 @@ ReadFile::~ReadFile()
 		delete myfileI;
 		break;
 	}
-}
-int ReadFile::StringToInt(string line)
-{
-	return 0;
 }

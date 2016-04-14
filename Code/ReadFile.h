@@ -16,7 +16,6 @@ public:
 	int Handle(int * data);
 	~ReadFile();
 private:
-	int StringToInt(string line);
 	std::ofstream * myfileO;
 	std::ifstream * myfileI;
 	int Mode;

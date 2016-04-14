@@ -49,7 +49,12 @@ int main(int argc, char ** argv)
 	else
 	{
 		if (DEBUG)
-			cout << argv[4] << endl;
+		{
+			cout << "Input 1: " << argv[1] << endl;
+			cout << "Input 2: " << argv[2] << endl;
+			cout << "Mode: " << argv[3] << endl;
+			cout << "Output 1: " << argv[4] << endl;
+		}
 	}
 	int input[6];
 	
@@ -102,11 +107,14 @@ int main(int argc, char ** argv)
 
 		cout << "Value: " << (List.front()).LM << endl;
 
-		ReadFile myfileIn(argv[1],READ);
+		ReadFile myfileIn1(argv[1], READ);
+		ReadFile myfileIn2(argv[2], READ);
 		ReadFile myfileOut(argv[4], APPEND);
 		int data[6];
-		myfileIn.Handle(data);
+		myfileIn1.Handle(data);
+		myfileIn2.Handle(data);
 		myfileOut.Handle(data);
+		cout << "data[0],[1],[2],[3],[4],[5] are: " << data[0] << ", " << data[1] << ", " << data[2] << ", " << data[3] << ", " << data[4] << ", " << data[5] << endl;
 
 	}
 
