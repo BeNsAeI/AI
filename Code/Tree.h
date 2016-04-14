@@ -3,7 +3,7 @@
 struct Tree
 {
 	int data[6];
-	Tree ** branch;
+	Tree * Parent;
 };
 
 struct Queue

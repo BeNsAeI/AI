@@ -8,6 +8,7 @@
 #include <string.h>
 #include <queue>
 #include "Game.h"
+#include "Tree.h"
 #include "ReadFile.h"
 
 #define LM 0
@@ -98,6 +99,20 @@ int ** Action(int * current, Game * state)
 		Next[4][RB] = 0;
 	}
 	return Next;
+}
+
+struct Tree * BFS(int * Start, int * End)
+{
+	struct Tree * final = new struct Tree;
+
+	return final;
+}
+
+struct Tree * DFS(int * Start, int * End)
+{
+	struct Tree * final = new struct Tree;
+
+	return final;
 }
 
 #endif
