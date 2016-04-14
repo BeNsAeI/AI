@@ -54,29 +54,23 @@ int ReadFile::Handle(int * data)
 		string line;
 		if (myfileI->is_open())
 		{
+			int DC = 0;
 			while (getline(*myfileI, line))
 			{
 				cout << line << '\n';
 				string pop = line;
 				for (int i = 0; i < line.size(); i++)
-					pop[i] = '/0';
-				int DC = 0;
+					pop[i] = '0';
 				for (int i = 0; i < line.size(); i++)
 				{
 					switch (line[i])
 					{
-					case'(':
-						DC = 0;
-						cout << " ";
-						break;
-					case ')':
-						break;
 					case ' ':
 						break;
 					case ',':
 						DC++;
 						for (int i = 0; i < pop.size(); i++)
-							pop[i] = '/0';
+							pop[i] = '0';
 						cout << " ";
 						break;
 					default:
@@ -87,6 +81,7 @@ int ReadFile::Handle(int * data)
 					}
 				}
 				cout << endl;
+				DC++;
 			}
 			myfileI->close();
 		}

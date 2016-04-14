@@ -66,34 +66,6 @@ int main(int argc, char ** argv)
 		cout << "Status 3(Fail):" << state->Assert(0, 0, 0, 3, 3, 0) << endl;
 		cout << "Status 1(Fail):" << state->Assert(1, 2, 0, 2, 1, 0) << endl;
 
-		cout << "Allocating memory..." << endl;
-		struct Tree * myTree = new struct Tree;
-		struct Tree * leftTree = new struct Tree;
-		struct Tree * rightTree = new struct Tree;
-
-		cout << "Creating the branches..." << endl;
-		myTree->branch = new Tree*[2];
-
-		cout << "Populating Data..." << endl;
-		myTree->data[0] = 1;
-		leftTree->data[0] = 2;
-		rightTree->data[0] = 3;
-		myTree->branch[0] = leftTree;
-		myTree->branch[1] = rightTree;
-
-		cout << "Values are: " << myTree->data[0] << ", " << myTree->branch[0]->data[0] << ", " << myTree->branch[1]->data[0] << endl;
-
-		cout << "Returning memory to heap..." << endl;
-		delete leftTree;
-		delete rightTree;
-		delete myTree;
-
-		cout << "Handling pointer ..." << endl;
-		myTree = NULL;
-		leftTree = NULL;
-		rightTree = NULL;
-		cout << "End of test ..." << endl;
-
 		queue<struct Data> List;
 		struct Data tmp;
 		tmp.LM = 3;
