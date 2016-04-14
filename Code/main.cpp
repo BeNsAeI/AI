@@ -16,8 +16,10 @@
 #include <stdio.h>
 #include <string>
 #include <string.h>
+#include <queue>
 #include "Game.h"
 #include "Tree.h"
+#include "ReadFile.h"
 
 #define DEBUG 1
 
@@ -25,6 +27,7 @@ using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
+using std::queue;
 
 //Print
 //readfile
@@ -43,17 +46,21 @@ int main(int argc, char ** argv)
 		cout << "./<executable> < initial state file > < goal state file > < mode > < output file >" << endl;
 		return 1;
 	}
-	Game * state = new Game(3, 3, 1, 0, 0, 0);
+	else
+	{
+		if (DEBUG)
+			cout << argv[4] << endl;
+	}
+	int input[6];
+	
 	if (DEBUG)
 	{
+		Game * state = new Game(3, 3, 1, 0, 0, 0);
 		cout << "Status 1(Pass):" << state->Assert(0, 0, 0, 3, 3, 1) << endl;
 		cout << "Status 2(Pass):" << state->Assert(3, 3, 1, 0, 0, 0) << endl;
 		cout << "Status 3(Fail):" << state->Assert(0, 0, 0, 3, 3, 0) << endl;
 		cout << "Status 1(Fail):" << state->Assert(1, 2, 0, 2, 1, 0) << endl;
-	}
 
-	if (DEBUG)
-	{
 		cout << "Allocating memory..." << endl;
 		struct Tree * myTree = new struct Tree;
 		struct Tree * leftTree = new struct Tree;
@@ -81,6 +88,26 @@ int main(int argc, char ** argv)
 		leftTree = NULL;
 		rightTree = NULL;
 		cout << "End of test ..." << endl;
+
+		queue<struct Data> List;
+		struct Data tmp;
+		tmp.LM = 3;
+		tmp.LC = 3;
+		tmp.LB = 1;
+		tmp.RM = 0;
+		tmp.RC = 0;
+		tmp.RB = 0;
+
+		List.push(tmp);
+
+		cout << "Value: " << (List.front()).LM << endl;
+
+		ReadFile myfileIn(argv[1],READ);
+		ReadFile myfileOut(argv[4], APPEND);
+		int data[6];
+		myfileIn.Handle(data);
+		myfileOut.Handle(data);
+
 	}
 
 	return 0;
