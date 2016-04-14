@@ -8,15 +8,10 @@ struct Tree
 
 struct Queue
 {
-	int data[6];
-	Queue * Sent;
+	Tree * Sent;
+	Tree * current;
 	Queue * Next;
 	Queue * Prev;
-	Queue * Last;
-	Queue Add(Queue NextNode)
-	{
-
-	}
 };
 struct Data
 {

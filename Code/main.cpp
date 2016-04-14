@@ -16,7 +16,6 @@
 #include <stdio.h>
 #include <string>
 #include <string.h>
-#include <queue>
 #include "Game.h"
 #include "ReadFile.h"
 #include "Search.h"
@@ -29,15 +28,6 @@ using std::cin;
 using std::endl;
 using std::string;
 using std::queue;
-
-//Print
-//readfile
-//Uninformed
-//Informed
-//breadth-firs
-//depth-first
-//iterative deepening depth-first
-//A-star
 
 int main(int argc, char ** argv)
 {
@@ -59,17 +49,6 @@ int main(int argc, char ** argv)
 	}
 	int input[6];
 	
-/*	if (0)
-	{
-		Game * state = new Game(data[0], data[1], data[2], data[3], data[4], data[5]);
-		cout << "Status 1(Pass):" << state->Assert(0, 0, 0, 3, 3, 1) << endl;
-		cout << "Status 2(Pass):" << state->Assert(3, 3, 1, 0, 0, 0) << endl;
-		cout << "Status 3(Fail):" << state->Assert(0, 0, 0, 3, 3, 0) << endl;
-		cout << "Status 4(Fail):" << state->Assert(1, 2, 0, 2, 1, 0) << endl;
-		cout << "Status 5(Fail):" << state->Assert(0, 0, -1, 3, 4, 1) << endl;
-		cout << "Status 6(Fail):" << state->Assert(0, 0, 0, -1, 3, 0) << endl;
-	}*/
-
 	ReadFile myfileIn1(argv[1], READ);
 	ReadFile myfileIn2(argv[2], READ);
 	ReadFile myfileOut(argv[4], APPEND);
@@ -83,6 +62,6 @@ int main(int argc, char ** argv)
 	if (DEBUG)
 		cout << "start[0],[1],[2],[3],[4],[5] are: " << end[0] << ", " << end[1] << ", " << end[2] << ", " << end[3] << ", " << end[4] << ", " << end[5] << endl;
 
-	struct Tree * Final = BFS(start, end);
+	struct Tree * Final = BFS(start, end, state);
 	return 0;
 }

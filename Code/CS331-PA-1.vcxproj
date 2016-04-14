@@ -85,7 +85,9 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Print.h" />
     <ClInclude Include="ReadFile.h" />
-    <ClInclude Include="Search.h" />
+    <ClInclude Include="Search.h">
+      <FileType>CppHeader</FileType>
+    </ClInclude>
     <ClInclude Include="Tree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -101,16 +101,25 @@ int ** Action(int * current, Game * state)
 	return Next;
 }
 
-struct Tree * BFS(int * Start, int * End)
+struct Tree * BFS(int * Start, int * End, Game * state)
 {
 	struct Tree * final = new struct Tree;
-
+	
 	return final;
 }
 
-struct Tree * DFS(int * Start, int * End)
+struct Tree * DFS(int * Start, int * End, Game * state)
 {
 	struct Tree * final = new struct Tree;
+	struct Tree * current = new struct Tree;
+	current->Parent = NULL;
+	current->data[0] = Start[0];
+	current->data[1] = Start[1];
+	current->data[2] = Start[2];
+	current->data[3] = Start[3];
+	current->data[4] = Start[4];
+	current->data[5] = Start[5];
+	std::queue<struct Tree *> next;
 
 	return final;
 }
