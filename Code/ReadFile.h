@@ -1,3 +1,5 @@
+#ifndef READFILE_H
+#define READFILE_H
 #include <iostream>
 #include <string>
 #include <string.h>
@@ -20,3 +22,5 @@ private:
 	std::ifstream * myfileI;
 	int Mode;
 };
+
+#endif

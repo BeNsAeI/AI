@@ -35,22 +35,13 @@
     <ClInclude Include="ReadFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BFS.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DFS.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IDDF.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AS.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Search.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

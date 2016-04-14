@@ -1,3 +1,5 @@
+#ifndef GAME_H
+#define GAME_H
 class Game{
 public:
 	Game(int FLM, int FLC, int FLB, int FRM, int FRC, int FRB);
@@ -8,3 +10,4 @@ public:
 	int FL[3];
 	int FR[3];
 };
+#endif

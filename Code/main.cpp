@@ -18,8 +18,8 @@
 #include <string.h>
 #include <queue>
 #include "Game.h"
-#include "Tree.h"
 #include "ReadFile.h"
+#include "Search.h"
 
 #define DEBUG 1
 
@@ -58,37 +58,24 @@ int main(int argc, char ** argv)
 	}
 	int input[6];
 	
-	if (DEBUG)
+/*	if (0)
 	{
-		Game * state = new Game(3, 3, 1, 0, 0, 0);
+		Game * state = new Game(data[0], data[1], data[2], data[3], data[4], data[5]);
 		cout << "Status 1(Pass):" << state->Assert(0, 0, 0, 3, 3, 1) << endl;
 		cout << "Status 2(Pass):" << state->Assert(3, 3, 1, 0, 0, 0) << endl;
 		cout << "Status 3(Fail):" << state->Assert(0, 0, 0, 3, 3, 0) << endl;
 		cout << "Status 1(Fail):" << state->Assert(1, 2, 0, 2, 1, 0) << endl;
-
-		queue<struct Data> List;
-		struct Data tmp;
-		tmp.LM = 3;
-		tmp.LC = 3;
-		tmp.LB = 1;
-		tmp.RM = 0;
-		tmp.RC = 0;
-		tmp.RB = 0;
-
-		List.push(tmp);
-
-		cout << "Value: " << (List.front()).LM << endl;
-
-		ReadFile myfileIn1(argv[1], READ);
-		ReadFile myfileIn2(argv[2], READ);
-		ReadFile myfileOut(argv[4], APPEND);
-		int data[6];
-		myfileIn1.Handle(data);
-		myfileIn2.Handle(data);
-		myfileOut.Handle(data);
+	}*/
+	ReadFile myfileIn1(argv[1], READ);
+	ReadFile myfileIn2(argv[2], READ);
+	ReadFile myfileOut(argv[4], APPEND);
+	int data[6];
+	myfileIn1.Handle(data);
+	if (DEBUG)
 		cout << "data[0],[1],[2],[3],[4],[5] are: " << data[0] << ", " << data[1] << ", " << data[2] << ", " << data[3] << ", " << data[4] << ", " << data[5] << endl;
+	Game * state = new Game(data[0], data[1], data[2], data[3], data[4], data[5]);
 
-	}
+	queue<int*> List;
 
 	return 0;
 }

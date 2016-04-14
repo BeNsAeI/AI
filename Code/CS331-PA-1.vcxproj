@@ -82,13 +82,10 @@
     <ClCompile Include="ReadFile.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AS.h" />
-    <ClInclude Include="BFS.h" />
-    <ClInclude Include="DFS.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="IDDF.h" />
     <ClInclude Include="Print.h" />
     <ClInclude Include="ReadFile.h" />
+    <ClInclude Include="Search.h" />
     <ClInclude Include="Tree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

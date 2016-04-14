@@ -1,3 +1,5 @@
+#ifndef TREE_H
+#define TREE_H
 struct Tree
 {
 	int data[6];
@@ -26,3 +28,5 @@ struct Data
 	int RC;
 	int RB;
 };
+
+#endif
