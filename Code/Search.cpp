@@ -1,7 +1,8 @@
+
 #include "Search.h"
-int ** Action(int * current, Game * state)
+int ** Action(int * current)
 {
-	int ** Next;
+	int ** Next = new int *[5];
 	for (int i = 0; i < 5; i++)
 		Next[i] = new int[6];
 	if (current[LB] == 1 && current[RB] == 0)
@@ -80,13 +81,13 @@ int ** Action(int * current, Game * state)
 	}
 	return Next;
 }
-int BFS(int * Start, int * End, Game * state, unordered_map<int, struct Tree> &explored)
+int BFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tree> &explored)
 {
-	int key=0;
+	int key=1;
 	int expanded=0;
-	int *ActionResults;
+	int **ActionResults;
 	
-	queue<struct Tree> fringe;
+	std::queue<struct Tree> fringe;
 
 	struct Tree current;
 	current.data[0] = Start[0];
@@ -96,14 +97,23 @@ int BFS(int * Start, int * End, Game * state, unordered_map<int, struct Tree> &e
 	current.data[4] = Start[4];
 	current.data[5] = Start[5];
 	current.parent = 0;
-
+	
 	fringe.push(current);
-
+	if (!state->Assert(current.data[LM], current.data[LC], current.data[LB], current.data[RM], current.data[RC], current.data[RB]))
+		return -2;
+	if (state->endGame(current.data[LM], current.data[LC], current.data[LB], current.data[RM], current.data[RC], current.data[RB]))
+	{
+		/* Add current to the explored hash map */
+		explored[key] = current;
+		return key;
+	}
 	/* TODO add a goal check here */
 
 	do{
-		if (fringe.size() == 0)
+		if (fringe.empty())
+		{
 			return -1;
+		}
 		/* Choose the oldest node on the fringe */
 		current = fringe.front();
 		fringe.pop();

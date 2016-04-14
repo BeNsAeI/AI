@@ -62,7 +62,9 @@ int main(int argc, char ** argv)
 	if (DEBUG)
 		cout << "start[0],[1],[2],[3],[4],[5] are: " << end[0] << ", " << end[1] << ", " << end[2] << ", " << end[3] << ", " << end[4] << ", " << end[5] << endl;
 
-	unordered_map<int, struct Tree> hash;
-	struct Tree * Final = BFS(start, end, state, hash);
+	std::unordered_map<int, struct Tree> hash;
+	struct Tree * Final;
+	int Key = BFS(start, end, state, hash);
+	cout << "Hash is: " << Key << endl;
 	return 0;
 }

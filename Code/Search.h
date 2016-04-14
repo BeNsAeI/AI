@@ -22,7 +22,7 @@
 
 // (LM,LC,LB,RM,RC,RB)
 int ** Action(int * current, Game * state);
-int BFS(int * Start, int * End, Game * state, unordered_map<int, struct Tree> &explored);
+int BFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tree> &explored);
 
 /*
 struct Tree * DFS(int * Start, int * End, Game * state)
