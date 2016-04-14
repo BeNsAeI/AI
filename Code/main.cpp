@@ -16,11 +16,11 @@
 #include <stdio.h>
 #include <string>
 #include <string.h>
+#include <unordered_map>
 #include "Game.h"
 #include "ReadFile.h"
 #include "Search.h"
 #include "Tree.h"
-
 #define DEBUG 1
 
 using std::cout;
@@ -62,6 +62,7 @@ int main(int argc, char ** argv)
 	if (DEBUG)
 		cout << "start[0],[1],[2],[3],[4],[5] are: " << end[0] << ", " << end[1] << ", " << end[2] << ", " << end[3] << ", " << end[4] << ", " << end[5] << endl;
 
-	struct Tree * Final = BFS(start, end, state);
+	unordered_map<int, struct Tree> hash;
+	struct Tree * Final = BFS(start, end, state, hash);
 	return 0;
 }

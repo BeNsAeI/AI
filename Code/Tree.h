@@ -3,8 +3,10 @@
 struct Tree
 {
 	int data[6];
-	Tree * Parent;
+	int parent;
 };
+
+
 
 struct Queue
 {
