@@ -7,6 +7,7 @@ using namespace std;
 
 void print(std::unordered_map<int, struct Tree *> &hash, int key)
 {
+	int ** data = new int* [key];
 	while (key != 0)
 	{
 		if (DEBUG)

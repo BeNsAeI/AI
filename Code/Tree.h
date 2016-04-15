@@ -7,8 +7,6 @@ struct Tree
 	int parent;
 };
 
-
-
 struct Queue
 {
 	Tree * Sent;
