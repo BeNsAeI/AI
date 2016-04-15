@@ -81,55 +81,93 @@ int ** Action(int * current)
 	}
 	return Next;
 }
-int BFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tree> &explored)
+
+bool isInFringe(std::deque<struct Tree *> &fringe,int * current)
+{
+	std::deque<struct Tree *>::iterator it = fringe.begin();
+	while (it != fringe.end())
+	{
+
+		if (   (*it)->data[LM] == current[LM]
+			&& (*it)->data[LC] == current[LC]
+			&& (*it)->data[LB] == current[LB]
+			&& (*it)->data[RM] == current[RM]
+			&& (*it)->data[RC] == current[RC]
+			&& (*it)->data[RB] == current[RB])
+
+		{
+			return true;
+		}
+		it++;
+	}
+	return false;
+}
+
+int BFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tree *> &explored)
 {
 	int key=1;
 	int expanded=0;
 	int **ActionResults;
 	
-	std::queue<struct Tree> fringe;
+	std::deque<struct Tree *> fringe;
 
-	struct Tree current;
-	current.data[0] = Start[0];
-	current.data[1] = Start[1];
-	current.data[2] = Start[2];
-	current.data[3] = Start[3];
-	current.data[4] = Start[4];
-	current.data[5] = Start[5];
-	current.parent = 0;
-	
-	fringe.push(current);
-	if (!state->Assert(current.data[LM], current.data[LC], current.data[LB], current.data[RM], current.data[RC], current.data[RB]))
+	struct Tree * current = new struct Tree;
+	current->data[LM] = Start[LM];
+	current->data[LC] = Start[LC];
+	current->data[LB] = Start[LB];
+	current->data[RM] = Start[RM];
+	current->data[RC] = Start[RC];
+	current->data[RB] = Start[RB];
+	current->parent = 0;
+	fringe.push_back(current);
+	if (!state->Assert(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
 		return -2;
-	if (state->endGame(current.data[LM], current.data[LC], current.data[LB], current.data[RM], current.data[RC], current.data[RB]))
+	if (state->endGame(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
 	{
 		/* Add current to the explored hash map */
 		explored[key] = current;
 		return key;
 	}
-	/* TODO add a goal check here */
-
 	do{
 		if (fringe.empty())
 		{
 			return -1;
 		}
+		else{ std::cout << "-" <<std::endl; }
 		/* Choose the oldest node on the fringe */
 		current = fringe.front();
-		fringe.pop();
+		fringe.pop_front();
 
 		/* Add current to the explored hash map */
 		explored[key] = current;
 		++key;
 
 		++expanded;
-		ActionResults = Action(current.data);
+		ActionResults = Action(current->data);
 		for (int i = 0; i < 5; i++)
 		{
-			/* Check if the expanded node is a fail state */
-			/* Check if the expanded node is in the explored or fringe*/
-			/* Check if the expanded node is the goal node */
-			/* If neither of the above, add it to the fringe */
+			std::cout << "ACTION: " << ActionResults[i][LM]<< ActionResults[i][LC]<< ActionResults[i][LB]<< ActionResults[i][RM]<< ActionResults[i][RC]<< ActionResults[i][RB] << std::endl;
+			if (state->Assert(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB])
+				&& explored.count(key) == 0
+				&& !isInFringe(fringe, ActionResults[i])
+				)
+			{
+				struct Tree * child = new struct Tree;
+				child->data[0] = ActionResults[i][0];
+				child->data[1] = ActionResults[i][1];
+				child->data[2] = ActionResults[i][2];
+				child->data[3] = ActionResults[i][3];
+				child->data[4] = ActionResults[i][4];
+				child->data[5] = ActionResults[i][5];
+				child->parent = key-1;
+				if (state->endGame(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB]))
+				{
+					explored[key] = child;
+					return key;
+				}
+				fringe.push_back(child);
+			}
+			else{ std::cout << "Failed at index: " << i << std::endl; }
 		}
 	}while(true);
 }

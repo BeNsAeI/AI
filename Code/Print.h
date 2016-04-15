@@ -1,13 +1,10 @@
-#include <iostream>
-//#include "BFS.h"
-//#include "DFS.h"
-//#include "IDDF.h"
-//#include "AS.h"
+#ifndef PRINT_H
+#define PRINT_H
 
-class Print{
-public:
-//	Print();		//Print BFS
-//	Print();		//Print DFS
-//	Print();		//Print IDDF
-//	Print();		//Print A-Start
-};
+#include <unordered_map>
+#include "Tree.h"
+
+void print(std::unordered_map<int, struct Tree *> &hash, int key);
+
+
+#endif

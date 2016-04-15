@@ -13,7 +13,16 @@ Game::Game(int FLM, int FLC, int FLB, int FRM, int FRC, int FRB)
 }
 bool Game::Assert(int LM, int LC, int LB, int RM, int RC, int RB)
 {
-	if (LM < LC || RM < RC || LB == RB || ((LM < 0) || (LC < 0) || (LB < 0) || (RM < 0) || (RC < 0) || (RB < 0)))
+	if ((LM < LC  && LM != 0)
+		|| (RM < RC && RM !=0) 
+		|| LB == RB 
+		|| ((LM < 0) 
+		|| (LC < 0) 
+		|| (LB < 0) 
+		|| (RM < 0) 
+		|| (RC < 0) 
+		|| (RB < 0)
+		))
 	{
 		return false;
 	}

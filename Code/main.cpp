@@ -21,6 +21,8 @@
 #include "ReadFile.h"
 #include "Search.h"
 #include "Tree.h"
+#include "Print.h"
+
 #define DEBUG 1
 
 using std::cout;
@@ -56,15 +58,15 @@ int main(int argc, char ** argv)
 	myfileIn1.Handle(start);
 	if (DEBUG)
 		cout << "start[0],[1],[2],[3],[4],[5] are: " << start[0] << ", " << start[1] << ", " << start[2] << ", " << start[3] << ", " << start[4] << ", " << start[5] << endl;
-	Game * state = new Game(start[0], start[1], start[2], start[3], start[4], start[5]);
 	int end[6];
 	myfileIn2.Handle(end);
 	if (DEBUG)
-		cout << "start[0],[1],[2],[3],[4],[5] are: " << end[0] << ", " << end[1] << ", " << end[2] << ", " << end[3] << ", " << end[4] << ", " << end[5] << endl;
-
-	std::unordered_map<int, struct Tree> hash;
+		cout << "end[0],[1],[2],[3],[4],[5] are: " << end[0] << ", " << end[1] << ", " << end[2] << ", " << end[3] << ", " << end[4] << ", " << end[5] << endl;
+	Game * state = new Game(end[0], end[1], end[2], end[3], end[4], end[5]);
+	std::unordered_map<int, struct Tree *> hash;
 	struct Tree * Final;
 	int Key = BFS(start, end, state, hash);
 	cout << "Hash is: " << Key << endl;
+	print(hash,Key);
 	return 0;
 }
