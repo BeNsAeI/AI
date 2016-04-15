@@ -102,7 +102,7 @@ bool isInFringe(std::deque<struct Tree *> &fringe,int * current)
 	}
 	return false;
 }
-
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 int BFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tree *> &explored)
 {
 	int key=1;
@@ -170,4 +170,74 @@ int BFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tre
 			else{ std::cout << "Failed at index: " << i << std::endl; }
 		}
 	}while(true);
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+int DFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tree *> &explored)
+{
+	int key = 1;
+	int expanded = 0;
+	int **ActionResults;
+
+	std::deque<struct Tree *> fringe;
+
+	struct Tree * current = new struct Tree;
+	current->data[LM] = Start[LM];
+	current->data[LC] = Start[LC];
+	current->data[LB] = Start[LB];
+	current->data[RM] = Start[RM];
+	current->data[RC] = Start[RC];
+	current->data[RB] = Start[RB];
+	current->parent = 0;
+	fringe.push_back(current);
+	if (!state->Assert(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
+		return -2;
+	if (state->endGame(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
+	{
+		/* Add current to the explored hash map */
+		explored[key] = current;
+		return key;
+	}
+	do{
+		if (fringe.empty())
+		{
+			return -1;
+		}
+		else{ std::cout << "-" << std::endl; }
+		/* Choose the oldest node on the fringe */
+		current = fringe.front();
+		fringe.pop_front();
+
+		/* Add current to the explored hash map */
+		explored[key] = current;
+		++key;
+
+		++expanded;
+		ActionResults = Action(current->data);
+		for (int i = 0; i < 5; i++)
+		{
+			std::cout << "ACTION: " << ActionResults[i][LM] << ActionResults[i][LC] << ActionResults[i][LB] << ActionResults[i][RM] << ActionResults[i][RC] << ActionResults[i][RB] << std::endl;
+			if (state->Assert(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB])
+				&& explored.count(key) == 0
+				&& !isInFringe(fringe, ActionResults[i])
+				)
+			{
+				struct Tree * child = new struct Tree;
+				child->data[0] = ActionResults[i][0];
+				child->data[1] = ActionResults[i][1];
+				child->data[2] = ActionResults[i][2];
+				child->data[3] = ActionResults[i][3];
+				child->data[4] = ActionResults[i][4];
+				child->data[5] = ActionResults[i][5];
+				child->parent = key - 1;
+				if (state->endGame(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB]))
+				{
+					explored[key] = child;
+					return key;
+				}
+				fringe.push_back(child);
+			}
+			else{ std::cout << "Failed at index: " << i << std::endl; }
+		}
+	} while (true);
 }
