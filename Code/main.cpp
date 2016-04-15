@@ -32,6 +32,7 @@ using std::queue;
 
 int main(int argc, char ** argv)
 {
+	//Checking for arguments
 	if (argc < 5)
 	{
 		cout << "missing argument" << endl;
@@ -42,30 +43,47 @@ int main(int argc, char ** argv)
 	{
 		if (DEBUG)
 		{
+			//Outputting the arguments
 			cout << "Input 1: " << argv[1] << endl;
 			cout << "Input 2: " << argv[2] << endl;
 			cout << "Mode: " << argv[3] << endl;
 			cout << "Output 1: " << argv[4] << endl;
 		}
 	}
-	int input[6];
-	
+	// File handle
 	ReadFile myfileIn1(argv[1], READ);
 	ReadFile myfileIn2(argv[2], READ);
 	ReadFile myfileOut(argv[4], APPEND);
+
+	//Populating the starting value from argument 1
 	int start[6];
 	myfileIn1.Handle(start);
-	if (DEBUG)
-		cout << "start[0],[1],[2],[3],[4],[5] are: " << start[0] << ", " << start[1] << ", " << start[2] << ", " << start[3] << ", " << start[4] << ", " << start[5] << endl;
+
+	//Populating ending state from argument 2
 	int end[6];
 	myfileIn2.Handle(end);
-	if (DEBUG)
-		cout << "end[0],[1],[2],[3],[4],[5] are: " << end[0] << ", " << end[1] << ", " << end[2] << ", " << end[3] << ", " << end[4] << ", " << end[5] << endl;
+
+	//Creating the game state
 	Game * state = new Game(end[0], end[1], end[2], end[3], end[4], end[5]);
+
+	//Creating the hash table and key
 	std::unordered_map<int, struct Tree *> hash;
-	int Key = BFS(start, end, state, hash);
+	int Key;
+
+	//running the search
+	if (argv[3][0] == 'b' || argv[3][0] == 'B')
+		Key = BFS(start, end, state, hash);
+	if (argv[3][0] == 'd' || argv[3][0] == 'D')
+		Key = DFS(start, end, state, hash);
+	if (argv[3][0] == 'i' || argv[3][0] == 'I')
+		Key = DFS(start, end, state, hash);
+	if (argv[3][0] == 'a' || argv[3][0] == 'A')
+		Key = DFS(start, end, state, hash);
+
+	//Outpu
 	if (DEBUG)
 		cout << "Hash is: " << Key << endl;
+	//Printing the output
 	print(hash,Key);
 	return 0;
 }
