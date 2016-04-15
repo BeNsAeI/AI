@@ -83,6 +83,7 @@
     <ClCompile Include="Search.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Const.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Print.h" />
     <ClInclude Include="ReadFile.h" />

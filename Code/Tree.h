@@ -1,5 +1,6 @@
 #ifndef TREE_H
 #define TREE_H
+
 struct Tree
 {
 	int data[6];
@@ -14,16 +15,6 @@ struct Queue
 	Tree * current;
 	Queue * Next;
 	Queue * Prev;
-};
-struct Data
-{
-	int LM;
-	int LC;
-	int LB;
-
-	int RM;
-	int RC;
-	int RB;
 };
 
 #endif

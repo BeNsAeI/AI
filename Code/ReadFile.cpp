@@ -5,10 +5,9 @@
 #include "ReadFile.h"
 #include <fstream>
 #include <sstream>
-#include <stdio.h>      /* printf, fgets */
-#include <stdlib.h>     /* atoi */
-
-#define DEBUG 0
+#include <stdio.h>
+#include <stdlib.h> 
+#include "Const.h"
 
 using std::string;
 using std::ifstream;

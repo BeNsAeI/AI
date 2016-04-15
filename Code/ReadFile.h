@@ -1,14 +1,12 @@
 #ifndef READFILE_H
 #define READFILE_H
+
 #include <iostream>
 #include <string>
 #include <string.h>
 #include <cstring>
 #include <fstream>
-
-#define READ 0
-#define WRITE 1
-#define APPEND 2
+#include "Const.h"
 
 using std::string;
 

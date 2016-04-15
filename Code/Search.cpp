@@ -1,6 +1,7 @@
 
 #include "Search.h"
-#define DEBUG 0
+#include "Const.h"
+
 int ** Action(int * current)
 {
 	int ** Next = new int *[5];

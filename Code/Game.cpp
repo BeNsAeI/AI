@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Game.h"
-
+// DO NOT USE THE "Const.h" FILE HERE!
 Game::Game(int FLM, int FLC, int FLB, int FRM, int FRC, int FRB)
 {
 	FL[0] = FLM;

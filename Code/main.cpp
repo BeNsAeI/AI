@@ -22,8 +22,7 @@
 #include "Search.h"
 #include "Tree.h"
 #include "Print.h"
-
-#define DEBUG 0
+#include "Const.h"
 
 using std::cout;
 using std::cin;
@@ -64,7 +63,6 @@ int main(int argc, char ** argv)
 		cout << "end[0],[1],[2],[3],[4],[5] are: " << end[0] << ", " << end[1] << ", " << end[2] << ", " << end[3] << ", " << end[4] << ", " << end[5] << endl;
 	Game * state = new Game(end[0], end[1], end[2], end[3], end[4], end[5]);
 	std::unordered_map<int, struct Tree *> hash;
-	struct Tree * Final;
 	int Key = BFS(start, end, state, hash);
 	if (DEBUG)
 		cout << "Hash is: " << Key << endl;

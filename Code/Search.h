@@ -11,14 +11,7 @@
 #include "Tree.h"
 #include "ReadFile.h"
 #include <unordered_map>
-
-
-#define LM 0
-#define LC 1
-#define LB 2
-#define RM 3
-#define RC 4
-#define RB 5
+#include "Const.h"
 
 // (LM,LC,LB,RM,RC,RB)
 int ** Action(int * current, Game * state);
