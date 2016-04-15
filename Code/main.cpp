@@ -67,7 +67,7 @@ int main(int argc, char ** argv)
 	Game * state = new Game(end[0], end[1], end[2], end[3], end[4], end[5]);
 
 	//Creating the hash table and key
-	std::unordered_map<int, struct Tree *> hash;
+	std::unordered_map<string,string> hash;
 	int Key;
 
 	//running the search

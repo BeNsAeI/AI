@@ -6,5 +6,4 @@
 
 void print(std::unordered_map<int, struct Tree *> &hash, int key);
 
-
 #endif
