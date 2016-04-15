@@ -263,6 +263,19 @@ string DFS(int * Start, int * End, Game * state, std::unordered_map<string, stri
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 string IDDFS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored)
 {
+	for (int depth = 0;; depth++)
+	{
+		explored.clear();
+		string result = DLS(Start, End, state,explored,depth);		//Figure out clearing explored
+		if (result != "Error")				// if we found the answer
+		{
+			return result;
+		}
+	}
+	return "Error";
+}
+string DLS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored,int depth)
+{
 	int expanded = 0;
 	int **ActionResults;
 
@@ -276,7 +289,18 @@ string IDDFS(int * Start, int * End, Game * state, std::unordered_map<string, st
 	current->data[RC] = Start[RC];
 	current->data[RB] = Start[RB];
 	current->parent = "ROOT";
-	fringe.push_back(current);
+	
+
+
+	return RDLS(current,state,explored,depth);
+	//
+}
+string RDLS(struct Tree *current, Game * state, std::unordered_map<string, string> &explored, int depth)
+{
+	int expanded = 0;
+	int **ActionResults;
+
+	string result;
 
 	if (!state->Assert(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
 		return SSTR(-2);
@@ -286,54 +310,50 @@ string IDDFS(int * Start, int * End, Game * state, std::unordered_map<string, st
 		explored[hashGen(current->data)] = SSTR(0);
 		return hashGen(current->data);
 	}
-	do{
-		if (fringe.empty())
+	if (depth == 0)
+	{
+		return "cutOff";
+	}
+	bool cutOff = false;
+
+	++expanded;
+	ActionResults = Action(current->data);
+	for (int i = 0; i < 5; i++)
+	{
+		struct Tree * child = new struct Tree;
+		child->data[0] = ActionResults[i][0];
+		child->data[1] = ActionResults[i][1];
+		child->data[2] = ActionResults[i][2];
+		child->data[3] = ActionResults[i][3];
+		child->data[4] = ActionResults[i][4];
+		child->data[5] = ActionResults[i][5];
+		child->parent = hashGen(current->data);
+		if (DEBUG)
+			std::cout << "ACTION: " << ActionResults[i][LM] << ActionResults[i][LC] << ActionResults[i][LB] << ActionResults[i][RM] << ActionResults[i][RC] << ActionResults[i][RB] << std::endl;
+		if (state->Assert(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB])
+			&& explored.count(hashGen(child->data)) == 0)
 		{
-			return "Error";
+			result = RDLS(child,state,explored,depth-1);
+			if (result == "cutOff")
+			{
+				cutOff = true;
+			}
+			else
+			{
+				if (result != "Error")
+				{
+					return result;
+				}
+			}
 		}
 		else{
 			if (DEBUG)
-				std::cout << "-" << std::endl;
+				std::cout << "Failed at index: " << i << std::endl;
 		}
-		/* Choose the oldest node on the fringe */
-		current = fringe.back();
-		fringe.pop_back();
-
-		/* Add current to the explored hash map */
-		explored[hashGen(current->data)] = current->parent;
-
-		++expanded;
-		ActionResults = Action(current->data);
-		for (int i = 0; i < 5; i++)
-		{
-			struct Tree * child = new struct Tree;
-			child->data[0] = ActionResults[i][0];
-			child->data[1] = ActionResults[i][1];
-			child->data[2] = ActionResults[i][2];
-			child->data[3] = ActionResults[i][3];
-			child->data[4] = ActionResults[i][4];
-			child->data[5] = ActionResults[i][5];
-			child->parent = hashGen(current->data);
-
-			if (DEBUG)
-				std::cout << "ACTION: " << ActionResults[i][LM] << ActionResults[i][LC] << ActionResults[i][LB] << ActionResults[i][RM] << ActionResults[i][RC] << ActionResults[i][RB] << std::endl;
-			if (state->Assert(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB])
-				&& explored.count(hashGen(child->data)) == 0
-				&& !isInFringe(fringe, ActionResults[i])
-				)
-			{
-
-				if (state->endGame(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB]))
-				{
-					explored[hashGen(child->data)] = child->parent;
-					return hashGen(child->data);
-				}
-				fringe.push_back(child);
-			}
-			else{
-				if (DEBUG)
-					std::cout << "Failed at index: " << i << std::endl;
-			}
-		}
-	} while (true);
+	}
+	if (cutOff)
+	{
+		return "cutOff";
+	}
+	return "Error";
 }
