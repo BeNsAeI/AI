@@ -90,7 +90,6 @@ bool isInFringe(std::deque<struct Tree *> &fringe,int * current)
 	std::deque<struct Tree *>::iterator it = fringe.begin();
 	while (it != fringe.end())
 	{
-
 		if (   (*it)->data[LM] == current[LM]
 			&& (*it)->data[LC] == current[LC]
 			&& (*it)->data[LB] == current[LB]
@@ -372,7 +371,7 @@ string AS(int * Start, int * End, Game * state, std::unordered_map<string, strin
 	int expanded = 0;
 	int **ActionResults;
 
-	std::deque<struct Tree *> fringe;
+	std::priority_queue<struct Tree *,std::vector<struct Tree*>,struct PTree> fringe;
 
 	struct Tree * current = new struct Tree;
 	current->data[LM] = Start[LM];
@@ -381,8 +380,10 @@ string AS(int * Start, int * End, Game * state, std::unordered_map<string, strin
 	current->data[RM] = Start[RM];
 	current->data[RC] = Start[RC];
 	current->data[RB] = Start[RB];
+	current->cost = 0;
+	current->priority = heuristic(current->data);
 	current->parent = "ROOT";
-	fringe.push_back(current);
+	fringe.push(current);
 
 	if (!state->Assert(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
 		return SSTR(-2);
@@ -402,12 +403,17 @@ string AS(int * Start, int * End, Game * state, std::unordered_map<string, strin
 				std::cout << "-" << std::endl;
 		}
 		/* Choose the oldest node on the fringe */
-		current = fringe.front();
-		fringe.pop_front();
+		current = fringe.top();
+		fringe.pop();
+
 
 		/* Add current to the explored hash map */
 		explored[hashGen(current->data)] = current->parent;
-
+		if (state->endGame(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
+		{
+			/* Add current to the explored hash map */
+			return hashGen(current->data);
+		}
 		++expanded;
 		ActionResults = Action(current->data);
 		for (int i = 0; i < 5; i++)
@@ -420,21 +426,16 @@ string AS(int * Start, int * End, Game * state, std::unordered_map<string, strin
 			child->data[4] = ActionResults[i][4];
 			child->data[5] = ActionResults[i][5];
 			child->parent = hashGen(current->data);
+			child->cost = current->cost + 1;
+			child->priority = heuristic(child->data) + child->cost;
 
 			if (DEBUG)
 				std::cout << "ACTION: " << ActionResults[i][LM] << ActionResults[i][LC] << ActionResults[i][LB] << ActionResults[i][RM] << ActionResults[i][RC] << ActionResults[i][RB] << std::endl;
 			if (state->Assert(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB])
 				&& explored.count(hashGen(child->data)) == 0
-				&& !isInFringe(fringe, ActionResults[i])
 				)
 			{
-
-				if (state->endGame(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB]))
-				{
-					explored[hashGen(child->data)] = child->parent;
-					return hashGen(child->data);
-				}
-				fringe.push_back(child);
+				fringe.push(child);
 			}
 			else{
 				if (DEBUG)
@@ -442,4 +443,10 @@ string AS(int * Start, int * End, Game * state, std::unordered_map<string, strin
 			}
 		}
 	} while (true);
+	return "Error";
+}
+
+int heuristic(int * data)
+{
+	return data[0] + data[1] - 1;
 }
