@@ -1,6 +1,9 @@
 #ifndef CONST_H
 #define CONST_H
 
+#define SSTR( x ) dynamic_cast< std::ostringstream & >( \
+	(std::ostringstream() << std::dec << x)).str()
+
 #define DEBUG 1
 
 #define READ 0

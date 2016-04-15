@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include "Tree.h"
 
-void print(std::unordered_map<int, struct Tree *> &hash, int key);
+using std::string;
+
+void print(std::unordered_map<string, string> &hash, string key);
 
 #endif

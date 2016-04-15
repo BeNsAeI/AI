@@ -1,10 +1,10 @@
 #ifndef TREE_H
 #define TREE_H
-
+#include <string>
 struct Tree
 {
 	int data[6];
-	int parent;
+	std::string parent;
 };
 
 struct Queue

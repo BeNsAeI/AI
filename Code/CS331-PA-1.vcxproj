@@ -85,6 +85,7 @@
   <ItemGroup>
     <ClInclude Include="Const.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="hash.h" />
     <ClInclude Include="Print.h" />
     <ClInclude Include="ReadFile.h" />
     <ClInclude Include="Search.h">

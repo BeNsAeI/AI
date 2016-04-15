@@ -1,6 +1,7 @@
 
 #include "Search.h"
 #include "Const.h"
+#include "hash.h"
 
 int ** Action(int * current)
 {
@@ -105,9 +106,8 @@ bool isInFringe(std::deque<struct Tree *> &fringe,int * current)
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-int BFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tree *> &explored)
+string BFS(int * Start, int * End, Game * state, std::unordered_map<string,string> &explored)
 {
-	int key=1;
 	int expanded=0;
 	int **ActionResults;
 	
@@ -120,20 +120,21 @@ int BFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tre
 	current->data[RM] = Start[RM];
 	current->data[RC] = Start[RC];
 	current->data[RB] = Start[RB];
-	current->parent = 0;
+	current->parent = "ROOT";
 	fringe.push_back(current);
+
 	if (!state->Assert(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
-		return -2;
+		return SSTR(-2);
 	if (state->endGame(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
 	{
 		/* Add current to the explored hash map */
-		explored[key] = current;
-		return key;
+		explored[hashGen(current->data)] = SSTR(0);
+		return hashGen(current->data);
 	}
 	do{
 		if (fringe.empty())
 		{
-			return -1;
+			return "Error";
 		}
 		else{
 			if (DEBUG)
@@ -144,32 +145,33 @@ int BFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tre
 		fringe.pop_front();
 
 		/* Add current to the explored hash map */
-		explored[key] = current;
-		++key;
+		explored[hashGen(current->data)] = current->parent;
 
 		++expanded;
 		ActionResults = Action(current->data);
 		for (int i = 0; i < 5; i++)
 		{
+			struct Tree * child = new struct Tree;
+			child->data[0] = ActionResults[i][0];
+			child->data[1] = ActionResults[i][1];
+			child->data[2] = ActionResults[i][2];
+			child->data[3] = ActionResults[i][3];
+			child->data[4] = ActionResults[i][4];
+			child->data[5] = ActionResults[i][5];
+			child->parent = hashGen(current->data);
+
 			if (DEBUG)
 				std::cout << "ACTION: " << ActionResults[i][LM]<< ActionResults[i][LC]<< ActionResults[i][LB]<< ActionResults[i][RM]<< ActionResults[i][RC]<< ActionResults[i][RB] << std::endl;
 			if (state->Assert(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB])
-				&& explored.count(key) == 0
+				&& explored.count(hashGen(child->data)) == 0
 				&& !isInFringe(fringe, ActionResults[i])
 				)
 			{
-				struct Tree * child = new struct Tree;
-				child->data[0] = ActionResults[i][0];
-				child->data[1] = ActionResults[i][1];
-				child->data[2] = ActionResults[i][2];
-				child->data[3] = ActionResults[i][3];
-				child->data[4] = ActionResults[i][4];
-				child->data[5] = ActionResults[i][5];
-				child->parent = key-1;
+				
 				if (state->endGame(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB]))
 				{
-					explored[key] = child;
-					return key;
+					explored[hashGen(child->data)] = child->parent;
+					return hashGen(child->data);
 				}
 				fringe.push_back(child);
 			}
@@ -182,9 +184,8 @@ int BFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tre
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-int DFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tree *> &explored)
+string DFS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored)
 {
-	int key = 1;
 	int expanded = 0;
 	int **ActionResults;
 
@@ -197,62 +198,64 @@ int DFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tre
 	current->data[RM] = Start[RM];
 	current->data[RC] = Start[RC];
 	current->data[RB] = Start[RB];
-	current->parent = 0;
+	current->parent = "ROOT";
 	fringe.push_back(current);
+
 	if (!state->Assert(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
-		return -2;
+		return SSTR(-2);
 	if (state->endGame(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
 	{
 		/* Add current to the explored hash map */
-		explored[key] = current;
-		return key;
+		explored[hashGen(current->data)] = SSTR(0);
+		return hashGen(current->data);
 	}
 	do{
 		if (fringe.empty())
 		{
-			return -1;
+			return "Error";
 		}
-		else{ 
+		else{
 			if (DEBUG)
 				std::cout << "-" << std::endl;
 		}
 		/* Choose the oldest node on the fringe */
-		current = fringe.front();
-		fringe.pop_front();
+		current = fringe.back();
+		fringe.pop_back();
 
 		/* Add current to the explored hash map */
-		explored[key] = current;
-		++key;
+		explored[hashGen(current->data)] = current->parent;
 
 		++expanded;
 		ActionResults = Action(current->data);
 		for (int i = 0; i < 5; i++)
 		{
+			struct Tree * child = new struct Tree;
+			child->data[0] = ActionResults[i][0];
+			child->data[1] = ActionResults[i][1];
+			child->data[2] = ActionResults[i][2];
+			child->data[3] = ActionResults[i][3];
+			child->data[4] = ActionResults[i][4];
+			child->data[5] = ActionResults[i][5];
+			child->parent = hashGen(current->data);
+
 			if (DEBUG)
 				std::cout << "ACTION: " << ActionResults[i][LM] << ActionResults[i][LC] << ActionResults[i][LB] << ActionResults[i][RM] << ActionResults[i][RC] << ActionResults[i][RB] << std::endl;
 			if (state->Assert(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB])
-				&& explored.count(key) == 0
+				&& explored.count(hashGen(child->data)) == 0
 				&& !isInFringe(fringe, ActionResults[i])
 				)
 			{
-				struct Tree * child = new struct Tree;
-				child->data[0] = ActionResults[i][0];
-				child->data[1] = ActionResults[i][1];
-				child->data[2] = ActionResults[i][2];
-				child->data[3] = ActionResults[i][3];
-				child->data[4] = ActionResults[i][4];
-				child->data[5] = ActionResults[i][5];
-				child->parent = key - 1;
+
 				if (state->endGame(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB]))
 				{
-					explored[key] = child;
-					return key;
+					explored[hashGen(child->data)] = child->parent;
+					return hashGen(child->data);
 				}
 				fringe.push_back(child);
 			}
-			else{ 
+			else{
 				if (DEBUG)
-					std::cout << "Failed at index: " << i << std::endl; 
+					std::cout << "Failed at index: " << i << std::endl;
 			}
 		}
 	} while (true);

@@ -68,7 +68,7 @@ int main(int argc, char ** argv)
 
 	//Creating the hash table and key
 	std::unordered_map<string,string> hash;
-	int Key;
+	string Key;
 
 	//running the search
 	if (argv[3][0] == 'b' || argv[3][0] == 'B')
@@ -81,8 +81,6 @@ int main(int argc, char ** argv)
 		Key = DFS(start, end, state, hash);
 
 	//Outpu
-	if (DEBUG)
-		cout << "Hash is: " << Key << endl;
 	//Printing the output
 	print(hash,Key);
 	return 0;
