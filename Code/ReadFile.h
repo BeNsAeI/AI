@@ -14,6 +14,7 @@ class ReadFile{
 public:
 	ReadFile(std::string PathIn, char mode);
 	int Handle(int * data);
+	int HandleText(string text);
 	~ReadFile();
 private:
 	std::ofstream * myfileO;

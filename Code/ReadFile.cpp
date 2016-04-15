@@ -102,6 +102,12 @@ int ReadFile::Handle(int * data)
 	}
 	return 0;
 }
+int ReadFile::HandleText(string text)
+{
+	if (text != "")
+		(*myfileO) << "(" << text <<")\n";
+	return 0;
+}
 ReadFile::~ReadFile()
 {
 	switch (Mode)

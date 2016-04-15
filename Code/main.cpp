@@ -82,6 +82,6 @@ int main(int argc, char ** argv)
 
 	//Outpu
 	//Printing the output
-	print(hash,Key);
+	print(hash, Key, myfileOut);
 	return 0;
 }
