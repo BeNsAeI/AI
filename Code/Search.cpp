@@ -271,6 +271,7 @@ string IDDFS(int * Start, int * End, Game * state, std::unordered_map<string, st
 	for (int depth = 0;; depth++)
 	{
 		explored.clear();
+		std::cout << "DEPTH: " << depth << std::endl;
 		string result = DLS(Start, End, state,explored,depth);		//Figure out clearing explored
 		if (result != "Error" && result != "cutOff")				// if we found the answer
 		{
@@ -348,6 +349,11 @@ string RDLS(struct Tree *current, Game * state, std::unordered_map<string, strin
 			{
 				if (result != "Error")
 				{
+					for (int j = 0; j < 5; j++)
+					{
+						delete[] ActionResults[j];
+					}
+					delete[] ActionResults;
 					return result;
 				}
 			}
@@ -359,8 +365,18 @@ string RDLS(struct Tree *current, Game * state, std::unordered_map<string, strin
 	}
 	if (cutOff)
 	{
+		for (int j = 0; j < 5; j++)
+		{
+			delete[] ActionResults[j];
+		}
+		delete[] ActionResults;
 		return "cutOff";
 	}
+	for (int j = 0; j < 5; j++)
+	{
+		delete[] ActionResults[j];
+	}
+	delete[] ActionResults;
 	return "Error";
 }
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
