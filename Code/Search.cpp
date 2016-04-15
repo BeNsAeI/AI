@@ -125,16 +125,23 @@ string BFS(int * Start, int * End, Game * state, std::unordered_map<string,strin
 	fringe.push_back(current);
 
 	if (!state->Assert(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
+	{
+		std::cout << "Expanded " << expanded << " nodes." << std::endl;
 		return SSTR(-2);
+	}
+
 	if (state->endGame(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
 	{
 		/* Add current to the explored hash map */
 		explored[hashGen(current->data)] = SSTR(0);
+		std::cout << "Expanded " << expanded << " nodes." << std::endl;
 		return hashGen(current->data);
 	}
+
 	do{
 		if (fringe.empty())
 		{
+			std::cout << "Expanded " << expanded << " nodes." << std::endl;
 			return "Error";
 		}
 		else{
@@ -172,6 +179,7 @@ string BFS(int * Start, int * End, Game * state, std::unordered_map<string,strin
 				if (state->endGame(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB]))
 				{
 					explored[hashGen(child->data)] = child->parent;
+					std::cout << "Expanded " << expanded << " nodes." << std::endl;
 					return hashGen(child->data);
 				}
 				fringe.push_back(child);
@@ -205,16 +213,23 @@ string DFS(int * Start, int * End, Game * state, std::unordered_map<string, stri
 	fringe.push_back(current);
 
 	if (!state->Assert(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
+	{
+		std::cout << "Expanded " << expanded << " nodes." << std::endl;
 		return SSTR(-2);
+	}
+
 	if (state->endGame(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
 	{
 		/* Add current to the explored hash map */
 		explored[hashGen(current->data)] = SSTR(0);
+		std::cout << "Expanded " << expanded << " nodes." << std::endl;
 		return hashGen(current->data);
 	}
+
 	do{
 		if (fringe.empty())
 		{
+			std::cout << "Expanded " << expanded << " nodes." << std::endl;
 			return "Error";
 		}
 		else{
@@ -252,6 +267,7 @@ string DFS(int * Start, int * End, Game * state, std::unordered_map<string, stri
 				if (state->endGame(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB]))
 				{
 					explored[hashGen(child->data)] = child->parent;
+					std::cout << "Expanded " << expanded << " nodes." << std::endl;
 					return hashGen(child->data);
 				}
 				fringe.push_back(child);
@@ -266,25 +282,28 @@ string DFS(int * Start, int * End, Game * state, std::unordered_map<string, stri
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 string IDDFS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored)
 {
+	int expanded_total = 0;
 	if (DEBUG)
 		std::cout << "IDDFS: " << std::endl;
 	for (int depth = 0;; depth++)
 	{
 		explored.clear();
 		std::cout << "DEPTH: " << depth << std::endl;
-		string result = DLS(Start, End, state,explored,depth);		//Figure out clearing explored
+		string result = DLS(Start, End, state,explored,depth, expanded_total);		//Figure out clearing explored
 		if (result != "Error" && result != "cutOff")				// if we found the answer
 		{
+			std::cout << "Expanded " << expanded_total << " nodes in total" << std::endl;
 			return result;
 		}	
 
 	}
 	return "Error";
 }
-string DLS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored,int depth)
+string DLS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored,int depth, int &expanded_total)
 {
 	int expanded = 0;
 	int **ActionResults;
+	string result;
 
 	std::deque<struct Tree *> fringe;
 
@@ -297,13 +316,14 @@ string DLS(int * Start, int * End, Game * state, std::unordered_map<string, stri
 	current->data[RB] = Start[RB];
 	current->parent = "ROOT";
 	
-	return RDLS(current,state,explored,depth);
-	//
+	result = RDLS(current,state,explored,depth, expanded);
+	expanded_total += expanded;
+	std::cout << "Expanded " << expanded << " nodes at depth " << depth  << ". Total expanded to this point: " << expanded_total << std::endl;
+	return result;
 }
-string RDLS(struct Tree *current, Game * state, std::unordered_map<string, string> &explored, int depth)
+string RDLS(struct Tree *current, Game * state, std::unordered_map<string, string> &explored, int depth, int &expanded)
 {
 
-	int expanded = 0;
 	int **ActionResults;
 
 	string result;
@@ -323,6 +343,7 @@ string RDLS(struct Tree *current, Game * state, std::unordered_map<string, strin
 	bool cutOff = false;
 
 	++expanded;
+	std::cout << expanded << std::endl;
 	ActionResults = Action(current->data);
 	for (int i = 0; i < 5; i++)
 	{
@@ -340,7 +361,7 @@ string RDLS(struct Tree *current, Game * state, std::unordered_map<string, strin
 			&& explored.count(hashGen(child->data)) == 0)
 		{
 			explored[hashGen(child->data)] = child->parent;
-			result = RDLS(child,state,explored,depth-1);
+			result = RDLS(child,state,explored,depth-1, expanded);
 			if (result == "cutOff")
 			{
 				cutOff = true;
@@ -402,16 +423,23 @@ string AS(int * Start, int * End, Game * state, std::unordered_map<string, strin
 	fringe.push(current);
 
 	if (!state->Assert(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
+	{
+		std::cout << "Expanded " << expanded << " nodes" << std::endl;
 		return SSTR(-2);
+	}
+
 	if (state->endGame(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
 	{
 		/* Add current to the explored hash map */
 		explored[hashGen(current->data)] = SSTR(0);
+		std::cout << "Expanded " << expanded << " nodes" << std::endl;
 		return hashGen(current->data);
 	}
+
 	do{
 		if (fringe.empty())
 		{
+			std::cout << "Expanded " << expanded << " nodes" << std::endl;
 			return "Error";
 		}
 		else{
@@ -428,6 +456,7 @@ string AS(int * Start, int * End, Game * state, std::unordered_map<string, strin
 		if (state->endGame(current->data[LM], current->data[LC], current->data[LB], current->data[RM], current->data[RC], current->data[RB]))
 		{
 			/* Add current to the explored hash map */
+			std::cout << "Expanded " << expanded << " nodes" << std::endl;
 			return hashGen(current->data);
 		}
 		++expanded;
@@ -459,6 +488,7 @@ string AS(int * Start, int * End, Game * state, std::unordered_map<string, strin
 			}
 		}
 	} while (true);
+	std::cout << "Expanded " << expanded << " nodes" << std::endl;
 	return "Error";
 }
 

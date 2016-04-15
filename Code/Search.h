@@ -20,8 +20,8 @@ int ** Action(int * current, Game * state);
 string BFS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored);
 string DFS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored);
 string IDDFS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored);
-string DLS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored,int depth);
-string RDLS(struct Tree *current, Game * state, std::unordered_map<string, string> &explored, int depth);
+string DLS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored,int depth, int&);
+string RDLS(struct Tree *current, Game * state, std::unordered_map<string, string> &explored, int depth, int&);
 string AS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored);
 int heuristic(int * data);
 #endif
