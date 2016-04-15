@@ -1,5 +1,6 @@
 
 #include "Search.h"
+#define DEBUG 0
 int ** Action(int * current)
 {
 	int ** Next = new int *[5];
@@ -133,7 +134,10 @@ int BFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tre
 		{
 			return -1;
 		}
-		else{ std::cout << "-" <<std::endl; }
+		else{
+			if (DEBUG)
+				std::cout << "-" <<std::endl; 
+		}
 		/* Choose the oldest node on the fringe */
 		current = fringe.front();
 		fringe.pop_front();
@@ -146,7 +150,8 @@ int BFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tre
 		ActionResults = Action(current->data);
 		for (int i = 0; i < 5; i++)
 		{
-			std::cout << "ACTION: " << ActionResults[i][LM]<< ActionResults[i][LC]<< ActionResults[i][LB]<< ActionResults[i][RM]<< ActionResults[i][RC]<< ActionResults[i][RB] << std::endl;
+			if (DEBUG)
+				std::cout << "ACTION: " << ActionResults[i][LM]<< ActionResults[i][LC]<< ActionResults[i][LB]<< ActionResults[i][RM]<< ActionResults[i][RC]<< ActionResults[i][RB] << std::endl;
 			if (state->Assert(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB])
 				&& explored.count(key) == 0
 				&& !isInFringe(fringe, ActionResults[i])
@@ -167,7 +172,10 @@ int BFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tre
 				}
 				fringe.push_back(child);
 			}
-			else{ std::cout << "Failed at index: " << i << std::endl; }
+			else{ 
+				if (DEBUG)
+					std::cout << "Failed at index: " << i << std::endl;
+			}
 		}
 	}while(true);
 }
@@ -203,7 +211,10 @@ int DFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tre
 		{
 			return -1;
 		}
-		else{ std::cout << "-" << std::endl; }
+		else{ 
+			if (DEBUG)
+				std::cout << "-" << std::endl;
+		}
 		/* Choose the oldest node on the fringe */
 		current = fringe.front();
 		fringe.pop_front();
@@ -216,7 +227,8 @@ int DFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tre
 		ActionResults = Action(current->data);
 		for (int i = 0; i < 5; i++)
 		{
-			std::cout << "ACTION: " << ActionResults[i][LM] << ActionResults[i][LC] << ActionResults[i][LB] << ActionResults[i][RM] << ActionResults[i][RC] << ActionResults[i][RB] << std::endl;
+			if (DEBUG)
+				std::cout << "ACTION: " << ActionResults[i][LM] << ActionResults[i][LC] << ActionResults[i][LB] << ActionResults[i][RM] << ActionResults[i][RC] << ActionResults[i][RB] << std::endl;
 			if (state->Assert(ActionResults[i][LM], ActionResults[i][LC], ActionResults[i][LB], ActionResults[i][RM], ActionResults[i][RC], ActionResults[i][RB])
 				&& explored.count(key) == 0
 				&& !isInFringe(fringe, ActionResults[i])
@@ -237,7 +249,10 @@ int DFS(int * Start, int * End, Game * state, std::unordered_map<int, struct Tre
 				}
 				fringe.push_back(child);
 			}
-			else{ std::cout << "Failed at index: " << i << std::endl; }
+			else{ 
+				if (DEBUG)
+					std::cout << "Failed at index: " << i << std::endl; 
+			}
 		}
 	} while (true);
 }

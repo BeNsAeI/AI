@@ -23,7 +23,7 @@
 #include "Tree.h"
 #include "Print.h"
 
-#define DEBUG 1
+#define DEBUG 0
 
 using std::cout;
 using std::cin;
@@ -66,7 +66,8 @@ int main(int argc, char ** argv)
 	std::unordered_map<int, struct Tree *> hash;
 	struct Tree * Final;
 	int Key = BFS(start, end, state, hash);
-	cout << "Hash is: " << Key << endl;
+	if (DEBUG)
+		cout << "Hash is: " << Key << endl;
 	print(hash,Key);
 	return 0;
 }

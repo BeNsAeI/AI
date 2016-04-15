@@ -8,6 +8,8 @@
 #include <stdio.h>      /* printf, fgets */
 #include <stdlib.h>     /* atoi */
 
+#define DEBUG 0
+
 using std::string;
 using std::ifstream;
 using std::cout;
@@ -19,17 +21,20 @@ ReadFile::ReadFile(std::string PathIn,char mode)
 	switch (mode)
 	{
 	case (2) :
-		cout << "Setting up a file to append to..." << endl;
+		if (DEBUG)
+			cout << "Setting up a file to append to..." << endl;
 		myfileO = new std::ofstream();
 		myfileO->open(PathIn.c_str(), std::ios::app);
 		break;
 	case (1):
-		cout << "Setting up a file to write to..." << endl;
+		if (DEBUG)
+			cout << "Setting up a file to write to..." << endl;
 		myfileO = new std::ofstream();
 		myfileO->open(PathIn.c_str());
 		break;
 	default:
-		cout << "Setting up a file to read from..." << endl;
+		if (DEBUG)
+			cout << "Setting up a file to read from..." << endl;
 		myfileI = new std::ifstream(PathIn.c_str());
 		break;
 	}
@@ -50,14 +55,16 @@ int ReadFile::Handle(int * data)
 		(*myfileO) << ")\n";
 		break;
 	default:
-		cout << "Reading: " << endl;
+		if (DEBUG)
+			cout << "Reading: " << endl;
 		string line;
 		if (myfileI->is_open())
 		{
 			int DC = 0;
 			while (getline(*myfileI, line))
 			{
-				cout << line << '\n';
+				if (DEBUG)
+					cout << line << '\n';
 				string pop = line;
 				for (int i = 0; i < line.size(); i++)
 					pop[i] = '0';
@@ -71,16 +78,19 @@ int ReadFile::Handle(int * data)
 						DC++;
 						for (int i = 0; i < pop.size(); i++)
 							pop[i] = '0';
-						cout << " ";
+						if (DEBUG)
+							cout << " ";
 						break;
 					default:
 						pop = pop + line[i];
-						cout << '^';
+						if (DEBUG)
+							cout << '^';
 						data[DC] = atoi(pop.c_str());
 						break;
 					}
 				}
-				cout << endl;
+				if (DEBUG)
+					cout << endl;
 				DC++;
 			}
 			myfileI->close();
