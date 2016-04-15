@@ -22,4 +22,5 @@ string DFS(int * Start, int * End, Game * state, std::unordered_map<string, stri
 string IDDFS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored);
 string DLS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored,int depth);
 string RDLS(struct Tree *current, Game * state, std::unordered_map<string, string> &explored, int depth);
+string AS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored);
 #endif
