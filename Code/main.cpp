@@ -76,7 +76,7 @@ int main(int argc, char ** argv)
 	if (argv[3][0] == 'd' || argv[3][0] == 'D')
 		Key = DFS(start, end, state, hash);
 	if (argv[3][0] == 'i' || argv[3][0] == 'I')
-		Key = DFS(start, end, state, hash);
+		Key = IDDFS(start, end, state, hash);
 	if (argv[3][0] == 'a' || argv[3][0] == 'A')
 		Key = DFS(start, end, state, hash);
 

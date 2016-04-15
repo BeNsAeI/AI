@@ -19,4 +19,5 @@ using std::string;
 int ** Action(int * current, Game * state);
 string BFS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored);
 string DFS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored);
+string IDDFS(int * Start, int * End, Game * state, std::unordered_map<string, string> &explored);
 #endif
