@@ -4,7 +4,7 @@
 #define SSTR( x ) dynamic_cast< std::ostringstream & >( \
 	(std::ostringstream() << std::dec << x)).str()
 
-#define DEBUG 1
+#define DEBUG 0
 
 #define READ 0
 #define WRITE 1

@@ -53,7 +53,7 @@ int main(int argc, char ** argv)
 	// File handle
 	ReadFile myfileIn1(argv[1], READ);
 	ReadFile myfileIn2(argv[2], READ);
-	ReadFile myfileOut(argv[4], APPEND);
+	ReadFile myfileOut(argv[4], WRITE);
 
 	//Populating the starting value from argument 1
 	int start[6];

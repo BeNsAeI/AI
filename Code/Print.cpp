@@ -7,15 +7,15 @@ using namespace std;
 
 void print(std::unordered_map<string, string> &hash, string key, ReadFile &myfile)
 {
-	string arr[200];
+	string arr[4096];
 	int arrC = 0;
 	while (key != "ROOT" && key != "Error")
 	{
-		if (DEBUG)
+		if (1)
 		{
 			cout << key << endl;
 		}
-		if (arrC < 200)
+		if (arrC < 4096)
 		{
 			arr[arrC] = key;
 			arrC++;
